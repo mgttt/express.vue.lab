@@ -1,3 +1,4 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"></head><body>
 <link rel="stylesheet" href="IosevkaMedium.css" comment="alternative to consolas">
 <style>
 .IosevkaMedium, pre, code
@@ -32,10 +33,7 @@
     visibility: visible;
 }
 </style>
-
-<h2>WORK LOG</h2>
-
-<li> [2017-11-19] <input type="checkbox" checked/>
+<li><input type="checkbox" checked/>
 	<div class="tooltip">测试一一一 tooltip
 		<span class="tooltiptext">测试二二二 tooltiptext</span>
 	</div>
@@ -68,7 +66,7 @@
 <script src="vue.2.5.7.min.js"></script>
 <script src="q.1.5.1.min.js"></script>
 <script src="src.ajaxq.js"></script>
-<script>
+<script >
 function s2o(s){return (new Function('return '+s))()}
 function o2s(o){return JSON.stringify(o)}
 function copy_o2o(o1,o2,o3){var o=o3||o2;for(var k in o){o1[k]=o2[k]}return o1}
@@ -103,6 +101,8 @@ https://cn.vuejs.org/v2/guide/installation.html
   <p>{{ ajaxq_rt }}</p>
   <button v-on:click="reverseMessage">Reverse Message</button>
   <button v-on:click="ajaxq">test ajaxq</button>
+  <button v-on:click="doReload">do reload</button>
+  <button v-on:click="doPing">do ping</button>
 </div>
 <script>
 var app5 = new Vue({
@@ -118,6 +118,14 @@ var app5 = new Vue({
     ajaxq: function () {
 			var _this=this;
 			ajaxq("/",o2s({m:'GetVersion',ping:(new Date()).getTime()})).then(s=>{ _this.ajaxq_rt=s });
+    },
+    doPing: function () {
+			var _this=this;
+			ajaxq("/",o2s({m:'Ping_Promise',ping:(new Date()).getTime()})).then(s=>{ _this.ajaxq_rt=s });
+    },
+    doReload: function () {
+			var _this=this;
+			ajaxq("/",o2s({m:'LogicReload',ping:(new Date()).getTime()})).then(s=>{ _this.ajaxq_rt=s });
     }
   }
 })
@@ -182,5 +190,3 @@ var app7 = new Vue({
 <anchored-heading :level="1">Hello world!1</anchored-heading>
 <anchored-heading :level="2">Hello world!2</anchored-heading>
 <anchored-heading :level="3">Hello world!3</anchored-heading>
-	
-
