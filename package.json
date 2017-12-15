@@ -1,0 +1,18 @@
+{
+  "name": "express.vue.lab",
+  "version": "0.0.1",
+  "description": "lab for express vue components",
+  "main": "lab",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.2",
+    "express-vue": "^4.0.14",
+    "moment-timezone": "^0.5.14",
+    "nodenodenode": "^0.3.3",
+    "q": "^1.5.1"
+  }
+}
