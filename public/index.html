@@ -38,7 +38,6 @@
 		<span class="tooltiptext">测试二二二 tooltiptext</span>
 	</div>
 <hr/>
-<p>&nbsp;</p>	
 <script type="text/x-template" id="anchored-heading-template">
   <h1 v-if="level === 1">
     <slot></slot>
@@ -102,13 +101,14 @@ https://cn.vuejs.org/v2/guide/installation.html
   <button v-on:click="reverseMessage">Reverse Message</button>
   <button v-on:click="ajaxq">test ajaxq</button>
   <button v-on:click="doReload">do reload</button>
+  <button v-on:click="doQuit">do quit</button>
   <button v-on:click="doPing">do ping</button>
 </div>
 <script>
 var app5 = new Vue({
   el: '#app-5',
   data: {
-    message: 'Hello Vue.js!',
+    message: '' + new Date(),
     ajaxq_rt: ''
   },
   methods: {
@@ -121,11 +121,17 @@ var app5 = new Vue({
     },
     doPing: function () {
 			var _this=this;
-			ajaxq("/",o2s({m:'Ping_Promise',ping:(new Date()).getTime()})).then(s=>{ _this.ajaxq_rt=s });
+			ajaxq("/",o2s({m:'Ping',ping:(new Date()).getTime()})).then(s=>{ _this.ajaxq_rt=s });
+    },
+    doQuit: function () {
+			var _this=this;
+			ajaxq("/",o2s({m:'Quit',ping:(new Date()).getTime()})).then(s=>{ _this.ajaxq_rt=s });
+			alert("might fail after reload 'coz server down...");
     },
     doReload: function () {
 			var _this=this;
 			ajaxq("/",o2s({m:'LogicReload',ping:(new Date()).getTime()})).then(s=>{ _this.ajaxq_rt=s });
+			alert("the remote logic should be reloaded...");
     }
   }
 })
