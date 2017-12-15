@@ -1,0 +1,186 @@
+<link rel="stylesheet" href="IosevkaMedium.css" comment="alternative to consolas">
+<style>
+.IosevkaMedium, pre, code
+,body
+{
+	font-family:"IosevkaMedium","AndaleMono",Consolas,DOS,Helvetica,Tahoma,Arial,SimHei,STXihei,"华文细黑","MicrosoftYaHei","微软雅黑",SimSun,"宋体",Heiti,"黑体",sans-serif;
+}
+/* Tooltip container */
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 600px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+ 
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+</style>
+
+<h2>WORK LOG</h2>
+
+<li> [2017-11-19] <input type="checkbox" checked/>
+	<div class="tooltip">测试一一一 tooltip
+		<span class="tooltiptext">测试二二二 tooltiptext</span>
+	</div>
+<hr/>
+<p>&nbsp;</p>	
+<script type="text/x-template" id="anchored-heading-template">
+  <h1 v-if="level === 1">
+    <slot></slot>
+  </h1>
+  <h2 v-else-if="level === 2">
+    <slot></slot>
+  </h2>
+  <h3 v-else-if="level === 3">
+    <slot></slot>
+  </h3>
+  <h4 v-else-if="level === 4">
+    <slot></slot>
+  </h4>
+  <h5 v-else-if="level === 5">
+    <slot></slot>
+  </h5>
+  <h6 v-else-if="level === 6">
+    <slot></slot>
+  </h6>
+</script>
+<!--
+	加production flag判断
+<script src="https://vuejs.org/js/vue.js"></script>
+-->
+<script src="vue.2.5.7.min.js"></script>
+<script src="q.1.5.1.min.js"></script>
+<script src="src.ajaxq.js"></script>
+<script>
+function s2o(s){return (new Function('return '+s))()}
+function o2s(o){return JSON.stringify(o)}
+function copy_o2o(o1,o2,o3){var o=o3||o2;for(var k in o){o1[k]=o2[k]}return o1}
+function getQueryVar(sVar){
+	return unescape(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + escape(sVar).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
+}
+function getSID(){
+	return getQueryVar('_s');
+}
+function getQueryStr(){
+	var _search=new String(location.search);
+	var reg=/^\?/g;
+	var _search2=_search.replace(reg,"");
+	return _search2;
+}
+function ajaxqq(api,param){
+	return ajaxq(api+'?'+getQueryStr(),o2s(param))
+		.fail(function(e){console.log(api+'.err='+e)})
+		.then(function(s){return s2o(s)||{STS:"KO",errmsg:s}})
+}
+</script>
+<!--
+	https://cdnjs.com/libraries/vue
+	https://cdn.jsdelivr.net/npm/vue
+	https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.7/vue.js
+	https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.7/vue.min.js
+	production: https://vuejs.org/js/vue.min.js
+https://cn.vuejs.org/v2/guide/installation.html
+-->
+<div id="app-5">
+  <p>{{ message }}</p>
+  <p>{{ ajaxq_rt }}</p>
+  <button v-on:click="reverseMessage">Reverse Message</button>
+  <button v-on:click="ajaxq">test ajaxq</button>
+</div>
+<script>
+var app5 = new Vue({
+  el: '#app-5',
+  data: {
+    message: 'Hello Vue.js!',
+    ajaxq_rt: ''
+  },
+  methods: {
+    reverseMessage: function () {
+      this.message = this.message.split('').reverse().join('')
+    },
+    ajaxq: function () {
+			var _this=this;
+			ajaxq("/",o2s({m:'GetVersion',ping:(new Date()).getTime()})).then(s=>{ _this.ajaxq_rt=s });
+    }
+  }
+})
+/*
+Vue.component('anchored-heading', {
+  template: '#anchored-heading-template',
+  props: {
+    level: {
+      type: Number,
+      required: true
+    }
+  }
+})
+*/
+Vue.component('anchored-heading', {
+  render: function (createElement) {
+    return createElement(
+      'h' + this.level,   // tag name
+      this.$slots.default // array of children
+    )
+  },
+  props: {
+    level: {
+      type: Number,
+      required: true
+    }
+  }
+})
+</script>
+<div id="app-7">
+  <ol>
+    <!--
+      Now we provide each todo-item with the todo object
+      it's representing, so that its content can be dynamic.
+      We also need to provide each component with a "key",
+      which will be explained later.
+    -->
+    <todo-item
+      v-for="item in groceryList"
+      v-bind:todo="item"
+      v-bind:key="item.id">
+    </todo-item>
+  </ol>
+</div>
+	<script>
+// Define a new component called todo-item
+Vue.component('todo-item', {
+  props: ['todo'],
+  template: '<li>{{ todo.text }}</li>'
+})
+var app7 = new Vue({
+  el: '#app-7',
+  data: {
+    groceryList: [
+      { id: 0, text: 'Vegetables' },
+      { id: 1, text: 'Cheese' },
+      { id: 2, text: 'Whatever else humans are supposed to eat' }
+    ]
+  }
+})
+	</script>
+<anchored-heading :level="1">Hello world!1</anchored-heading>
+<anchored-heading :level="2">Hello world!2</anchored-heading>
+<anchored-heading :level="3">Hello world!3</anchored-heading>
+	
+
