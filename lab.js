@@ -1,7 +1,11 @@
 const express = require('express')
 const app = express()
 
-app.get('/', (req, res) => res.send('root'))
+//app.get('/', (req, res) => res.send('root'))
+//TODO redirect to static
+app.get('/', (req, res) => res.send('/static/index.html'))
+
+app.use('/static', express.static('public'))
 
 //nodecube api @ref nodenodenode
 var appModule=require('nodenodenode')().appModule;
