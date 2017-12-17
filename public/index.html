@@ -1,5 +1,5 @@
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"></head>
-	<body oncontextmenu="return false" onselectstart="return false" oncopy="return false">
+	<body _oncontextmenu="return false" onselectstart="return false" oncopy="return false">
 <link rel="stylesheet" href="IosevkaMedium.css" comment="alternative to consolas">
 <style>
 .IosevkaMedium, pre, code
@@ -230,7 +230,6 @@ var app7 = new Vue({
 .mg-checkbox input[type=checkbox]:checked + label:after{content:"\2714";}
 .mg-radio input[type=radio]{display:none;}
 .mg-radio input[type=radio] + label{
-	/*background-color: white;*/
 	border-radius: 50%;
 	border:1px solid #d3d3d3;
 	width:1.5rem;
@@ -242,22 +241,38 @@ var app7 = new Vue({
 }
 .mg-radio input[type=radio]{
 	vertical-align:middle;
-	/*text-align:right;*/
 	width:1.5rem;height:1.5rem;
 	line-height: 1.5rem;
 }
 .mg-radio input[type=radio]:checked + label:after{
 	content:"\2726";
 }
+.mg-grid{
+	margin-top:2px;
+}
+.test-grid{
+	border:1px solid
+}
 </style>
-<hr/>
+<script type="text/x-template" id="mg-grid">
+<div>
+<table :class="'mg-grid '+bind.cls">
+<th><td v-for="td in bind.table_columns" v-bind:width="td.width" v-bind:align="td.align">{{td.title}}</td></th>
+<tr v-for="row in bind.table_data">
+<td>{{row.prod_code}}</td>
+</tr>
+</table>
+</div>
+</script>
 <div id="app8">app8<br/>
 <mg-checkbox :bind="cbx1"></mg-checkbox>
 <mg-checkbox :bind="cbx2"></mg-checkbox>
 <mg-radio :bind="rdo1"></mg-radio>
 <mg-radio :bind="rdo2"></mg-radio>
+<mg-grid :bind="grid"></mg-grid>
 </div>
 <script>
+//TODO 未做 readonly 和 disabled...
 Vue.component('mg-checkbox',{
 	props: ['bind'],
 	template: '<span class="mg-checkbox"><input type="checkbox" :id="bind.id" :name="bind.name"/><label :for="bind.id"></label><label :for="bind.id">{{bind.label}}</label></span>'
@@ -266,6 +281,10 @@ Vue.component('mg-radio',{
 	props: ['bind'],
 	template: '<span class="mg-radio"><input type="radio" :id="bind.id" :name="bind.name"><label :for="bind.id"></label><label :for="bind.id">{{bind.label}}</label></span>'
 })
+Vue.component('mg-grid',{
+	template: "#mg-grid",
+	props: ['bind']
+})
 var app8 = new Vue({
 	el: '#app8',
 	data:{
@@ -273,6 +292,16 @@ var app8 = new Vue({
 		cbx2:{id:'chk_222',name:'chk_111222',label:'222'},
 		rdo1:{id:'rdo_111',name:'rdo_111222',label:'rdo111'},
 		rdo2:{id:'rdo_222',name:'rdo_111222',label:'rdo222'},
+		grid:{
+			cls:'test-grid',
+			table_columns:[
+				{title:'代号',width:'80',align:'center',dataIndx:'prod_code'},
+				{title:'代号2',width:'80',align:'center',dataIndx:'prod_code2'}
+			],
+			table_data:[
+				{prod_code:'HSIZ7'}
+			]
+		},
 	}
 })
 </script>
