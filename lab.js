@@ -1,16 +1,17 @@
-const express = require('express')
-const app = express()
+const express=require('express');
+const express_app = express();
 
 //POST => nodenodenode
 var appModule=require('nodenodenode')().appModule;
-app.post('/', (req, res) => appModule.handleHttp(req,res))
+appModule.express = express;//hook the express
+appModule.express_app = express_app;
+express_app.post('/', (req, res) => appModule.handleHttp(req,res))
 
-// redirect / => index.html
-app.get('/', (req, res) => res.redirect('/index.html'))
+// root => default.html
+express_app.get('/', (req, res) => res.redirect('/default.html'))
 
-// other to static
-app.use('/', express.static('docs'))
+// other to static docs/
+express_app.use('/', express.static('docs'))
 
-// license to port (TODO argo later)
-var port=3000;
-app.listen(port, () => console.log(`listening on port ${port}!`))
+var port=3000;//TODO hook the argo.express_port and argo.express_host later...
+express_app.listen(port, () => console.log(`listening on port ${port}!`))
