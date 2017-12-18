@@ -1,5 +1,5 @@
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"></head>
-	<body _oncontextmenu="return false" onselectstart="return false" oncopy="return false">
+<body _oncontextmenu="return false" onselectstart="return false" oncopy="return false">
 <link rel="stylesheet" href="IosevkaMedium.css" comment="alternative to consolas">
 <style>
 html,body{
@@ -41,6 +41,7 @@ html,body{
     visibility: visible;
 }
 </style>
+<a href='iview.html'>iViewTester</a>
 <li><input type="checkbox" checked/>
 	<div class="tooltip">测试一一一 tooltip
 		<span class="tooltiptext">测试二二二 tooltiptext</span>
@@ -235,7 +236,7 @@ var app7 = new Vue({
 	vertical-align: middle;
 	line-height: 1.5rem;
 }
-.mg-checkbox input[type=checkbox]:checked + label:after{content:"\2714";}
+/* .mg-checkbox input[type=checkbox]:checked + label:after{content:"\2714";} */
 .mg-radio input[type=radio]{display:none;}
 .mg-radio input[type=radio] + label{
 	border-radius: 50%;
@@ -249,12 +250,11 @@ var app7 = new Vue({
 }
 .mg-radio input[type=radio]{
 	vertical-align:middle;
-	width:1.5rem;height:1.5rem;
+	width:1.5rem;
+	height:1.5rem;
 	line-height: 1.5rem;
 }
-.mg-radio input[type=radio]:checked + label:after{
-	content:"\2726";
-}
+/* .mg-radio input[type=radio]:checked + label:after{ content:"\2726"; } */
 .mg-grid{ margin-top:2px; }
 .test-grid { border:1px solid}
 .test-grid td { margin:2px; padding:2px;border:1px solid; text-align:center}
@@ -271,13 +271,24 @@ var app7 = new Vue({
 </div>
 </script>
 <div id="app8">app8<br/>
-<mg-checkbox :bind="cbx1"></mg-checkbox>
-<mg-checkbox :bind="cbx2"></mg-checkbox>
-<mg-radio :bind="rdo1"></mg-radio>
-<mg-radio :bind="rdo2"></mg-radio>
+<!--
+<my-checkbox v-model="cbx1" value="cbx111"></my-checkbox>
+<my-checkbox
+  :checked="cbx1.checked"
+  @change="val => { cbx1 = val }"
+  value="some value">
+</my-checkbox>
+-->
+<mg-checkbox :bind="cbx_111" :picked.sync="cbx_111.picked"></mg-checkbox>
+<mg-checkbox :bind="cbx2" :picked.sync="cbx2.picked"></mg-checkbox>
+<mg-radio :bind="rdo1" :picked.sync="rdo_111222"></mg-radio>
+<mg-radio :bind="rdo2" :picked.sync="rdo_111222" ></mg-radio>
 <mg-grid :bind="grid"></mg-grid>
 <pre>
-{{ cbx1 }}
+cbx_111.picked={{ cbx_111.picked}}
+{{ cbx2.picked}}
+rdo_111222={{ rdo_111222 }}
+{{ cbx_111 }}
 {{ cbx2 }}
 {{ rdo1 }}
 {{ rdo2 }}
@@ -288,20 +299,22 @@ var app7 = new Vue({
 <script>
 //TODO 未做 readonly 和 disabled...
 Vue.component('mg-checkbox',{
-	props: ['bind'],
-	template: '<span class="mg-checkbox"><input type="checkbox" :id="bind.id" :name="bind.name" :checked="bind.checked" :value="bind.value" @click="click"/><label :for="bind.id"></label><label :for="bind.id">{{bind.label}}</label></span>',
+	props: ['bind','picked'],
+	template: '<span class="mg-checkbox"><input type="checkbox" :id="bind.id" :name="bind.name" :checked="(bind.value==picked)" :value="bind.value" @change="change"/><label @click="change">{{ bind.value==picked ? "\u2714":""}}</label><label @click="change">{{bind.label}}</label></span>',
 	methods: {
-		click() {
-			this.bind.checked = !this.bind.checked;
+		change() {
+			this.picked = this.picked ? null : this.bind.value;
+			this.$emit('update:picked', this.picked);
 		}
 	}
 })
 Vue.component('mg-radio',{
-	props: ['bind'],
-	template: '<span class="mg-radio"><input type="radio" :id="bind.id" :name="bind.name" :checked="bind.checked" :value="bind.value" @click="click"><label :for="bind.id"></label><label :for="bind.id">{{bind.label}}</label></span>',
+	props: ['bind','picked'],
+	template: '<span class="mg-radio"><input type="radio" :id="bind.id" :name="bind.name" :checked="(bind.value==picked)" :value="bind.value" @change="change"><label @click="change">{{ bind.value==picked ? "\u2726":""}}</label>&nbsp;<label  @click="change">{{bind.label}}</label></span>',
 	methods: {
-		click(evt) {
-			this.bind.checked = true;//有bug，其它的没有?
+		change(evt,v) {
+			this.picked = this.bind.value;
+			this.$emit('update:picked', this.picked);
 		}
 	}
 })
@@ -310,10 +323,11 @@ Vue.component('mg-grid',{
 	props: ['bind']
 })
 var gData8 = {
-	cbx1:{id:'chk_111',name:'chk_111222',label:'111',checked:true,value:'111'},
-	cbx2:{id:'chk_222',name:'chk_111222',label:'222',checked:false,value:'222'},
+	cbx_111:{id:'cbx_111',name:'cbx_111',label:'111',value:'111',picked:null},
+	cbx2:{id:'chk_222',name:'chk_222',label:'222',value:'222',picked:null},
 	rdo1:{id:'rdo_111',name:'rdo_111222',label:'rdo111',value:'111'},
 	rdo2:{id:'rdo_222',name:'rdo_111222',label:'rdo222',value:'222'},
+	rdo_111222:'???',
 	grid:{
 		cls:'test-grid',
 		table_columns:[
@@ -327,11 +341,19 @@ var gData8 = {
 	},
 	debug:null,
 };
+
 setInterval(function(){
 	gData8.grid.table_data=[ {prod_code:Math.round(Math.random()*9999)} ];
+	//gData8.picked_rdo=Math.random()>0.5?'222':'111';
 },2222);
+
 var app8 = new Vue({
 	el: '#app8',
-	data: gData8
+	data: gData8,
+	methods: {
+		change:function(ev){
+			alert('change8');
+		}
+	}	
 })
 </script>
