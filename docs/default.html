@@ -222,10 +222,10 @@ var app7 = new Vue({
 </script>
 <hr>
 <style>
-.mg-checkbox label{margin-left:3px;margin-right:3px;margin-bottom:0px;}
-.mg-checkbox input{ text-align:center; width:36px;}
-.mg-checkbox input[type=checkbox]{display:none;}
-.mg-checkbox input[type=checkbox] + label{
+.mg-cbx label{margin-left:3px;margin-right:3px;margin-bottom:0px;}
+.mg-cbx input{ text-align:center; width:36px;}
+.mg-cbx input[type=checkbox]{display:none;}
+.mg-cbx input[type=checkbox] + label{
 	/*background-color: white;*/
 	border-radius: 5px;
 	border:1px solid #d3d3d3;
@@ -236,9 +236,9 @@ var app7 = new Vue({
 	vertical-align: middle;
 	line-height: 1.5rem;
 }
-/* .mg-checkbox input[type=checkbox]:checked + label:after{content:"\2714";} */
-.mg-radio input[type=radio]{display:none;}
-.mg-radio input[type=radio] + label{
+/* .mg-cbx input[type=checkbox]:checked + label:after{content:"\2714";} */
+.mg-rdo input[type=radio]{display:none;}
+.mg-rdo input[type=radio] + label{
 	border-radius: 50%;
 	border:1px solid #d3d3d3;
 	width:1.5rem;
@@ -248,13 +248,13 @@ var app7 = new Vue({
 	vertical-align: middle;
 	line-height: 1.5rem;
 }
-.mg-radio input[type=radio]{
+.mg-rdo input[type=radio]{
 	vertical-align:middle;
 	width:1.5rem;
 	height:1.5rem;
 	line-height: 1.5rem;
 }
-/* .mg-radio input[type=radio]:checked + label:after{ content:"\2726"; } */
+/* .mg-rdo input[type=radio]:checked + label:after{ content:"\2726"; } */
 .mg-grid{ margin-top:2px; }
 .test-grid { border:1px solid}
 .test-grid td { margin:2px; padding:2px;border:1px solid; text-align:center}
@@ -279,10 +279,10 @@ var app7 = new Vue({
   value="some value">
 </my-checkbox>
 -->
-<mg-checkbox :bind="cbx_111" :picked.sync="cbx_111.picked"></mg-checkbox>
-<mg-checkbox :bind="cbx2" :picked.sync="cbx2.picked"></mg-checkbox>
-<mg-radio :bind="rdo1" :picked.sync="rdo_111222"></mg-radio>
-<mg-radio :bind="rdo2" :picked.sync="rdo_111222" ></mg-radio>
+<mg-cbx :bind="cbx_111" :picked.sync="cbx_111.picked"></mg-cbx>
+<mg-cbx :bind="cbx2" :picked.sync="cbx2.picked"></mg-cbx>
+<mg-rdo :bind="rdo1" :picked.sync="rdo_111222"></mg-rdo>
+<mg-rdo :bind="rdo2" :picked.sync="rdo_111222" ></mg-rdo>
 <mg-grid :bind="grid"></mg-grid>
 <pre>
 cbx_111.picked={{ cbx_111.picked}}
@@ -298,9 +298,9 @@ rdo_111222={{ rdo_111222 }}
 </div>
 <script>
 //TODO 未做 readonly 和 disabled...
-Vue.component('mg-checkbox',{
+Vue.component('mg-cbx',{
 	props: ['bind','picked'],
-	template: '<span class="mg-checkbox"><input type="checkbox" :id="bind.id" :name="bind.name" :checked="(bind.value==picked)" :value="bind.value" @change="change"/><label @click="change">{{ bind.value==picked ? "\u2714":""}}</label><label @click="change">{{bind.label}}</label></span>',
+	template: '<span class="mg-cbx"><input type="checkbox" :id="bind.id" :name="bind.name" :checked="(bind.value==picked)" :value="bind.value" @change="change"/><label @click="change">{{ bind.value==picked ? "\u2714":""}}</label><label @click="change">{{bind.label}}</label></span>',
 	methods: {
 		change() {
 			this.picked = this.picked ? null : this.bind.value;
@@ -308,9 +308,9 @@ Vue.component('mg-checkbox',{
 		}
 	}
 })
-Vue.component('mg-radio',{
+Vue.component('mg-rdo',{
 	props: ['bind','picked'],
-	template: '<span class="mg-radio"><input type="radio" :id="bind.id" :name="bind.name" :checked="(bind.value==picked)" :value="bind.value" @change="change"><label @click="change">{{ bind.value==picked ? "\u2726":""}}</label>&nbsp;<label  @click="change">{{bind.label}}</label></span>',
+	template: '<span class="mg-rdo"><input type="radio" :id="bind.id" :name="bind.name" :checked="(bind.value==picked)" :value="bind.value" @change="change"><label @click="change">{{ bind.value==picked ? "\u2726":""}}</label>&nbsp;<label  @click="change">{{bind.label}}</label></span>',
 	methods: {
 		change(evt,v) {
 			this.picked = this.bind.value;
