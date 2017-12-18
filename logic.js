@@ -18,7 +18,7 @@ module.exports = function (Application){
 		return Quit_Promise(p);
 	}
 
-	function Ping_Promise(p){//throw new Error("testing");
+	function Ping_q(p){//throw new Error("testing");
 		var ping=null;
 		if(p && p.ping) ping=p.ping;
 		var rt={STS:"OK"};
@@ -60,7 +60,8 @@ module.exports = function (Application){
 		Quit_Promise,
 		SuperQuit_Promise,
 		//Health_Promise,
-		Ping_Promise,
+		//Ping_Promise,
+		Ping_q,
 		handleSIGINT,
 		handleUncaughtException,
 		//handleExit,
