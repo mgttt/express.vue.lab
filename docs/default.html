@@ -222,6 +222,7 @@ var app7 = new Vue({
 </script>
 <hr>
 <style>
+.mg-cbx-readonly,.mg-cbx-disabled {color:/*grey #d3d3d3*/#aaaaaa}
 .mg-cbx label{margin-left:3px;margin-right:3px;margin-bottom:0px;}
 .mg-cbx input{ text-align:center; width:36px;}
 .mg-cbx input[type=checkbox]{display:none;}
@@ -237,10 +238,12 @@ var app7 = new Vue({
 	line-height: 1.5rem;
 }
 /* .mg-cbx input[type=checkbox]:checked + label:after{content:"\2714";} */
+.mg-rdo-disabled,.mg-rdo-readonly {color:/*grey #d3d3d3*/#aaaaaa}
+.mg-rdo label{margin-left:3px;margin-right:3px;margin-bottom:0px;}
 .mg-rdo input[type=radio]{display:none;}
 .mg-rdo input[type=radio] + label{
 	border-radius: 50%;
-	border:1px solid #d3d3d3;
+	border:1px solid;
 	width:1.5rem;
 	height:1.5rem;
 	display: inline-block;
@@ -281,8 +284,11 @@ var app7 = new Vue({
 -->
 <mg-cbx :bind="cbx_111" :picked.sync="cbx_111.picked"></mg-cbx>
 <mg-cbx :bind="cbx2" :picked.sync="cbx2.picked"></mg-cbx>
+<mg-cbx :bind="cbx3" :picked.sync="cbx3.picked"></mg-cbx>
+<mg-cbx :bind="cbx4" :picked.sync="cbx4.picked"></mg-cbx>
 <mg-rdo :bind="rdo1" :picked.sync="rdo_111222"></mg-rdo>
 <mg-rdo :bind="rdo2" :picked.sync="rdo_111222" ></mg-rdo>
+<mg-rdo :bind="rdo3" :picked.sync="rdo_111222" ></mg-rdo>
 <mg-grid :bind="grid"></mg-grid>
 <pre>
 cbx_111.picked={{ cbx_111.picked}}
@@ -297,12 +303,21 @@ rdo_111222={{ rdo_111222 }}
 </pre>
 </div>
 <script>
-//TODO 未做 readonly 和 disabled...
 Vue.component('mg-cbx',{
 	props: ['bind','picked'],
-	template: '<span class="mg-cbx"><input type="checkbox" :id="bind.id" :name="bind.name" :checked="(bind.value==picked)" :value="bind.value" @change="change"/><label @click="change">{{ bind.value==picked ? "\u2714":""}}</label><label @click="change">{{bind.label}}</label></span>',
+	template: '<span :class="cls"><input type="checkbox" :id="bind.id" :name="bind.name" :checked="(bind.value==picked)" :value="bind.value" @change="change"/><label @click="change">{{ bind.value==picked ? "\u2714":""}}</label><label @click="change">{{bind.label}}</label></span>',
+	computed:{
+		cls:function(){
+			var _cls="mg-cbx";
+			if(this.bind.cls){ _cls+=' '+this.bind.cls; }
+			if(this.bind.disabled){ _cls+=' '+'mg-cbx-disabled'; }
+			if(this.bind.readonly){ _cls+=' '+'mg-cbx-readonly'; }
+			return _cls;
+		}
+	},
 	methods: {
-		change() {
+		change:function(){
+			if(this.bind.disabled || this.bind.readonly)return;
 			this.picked = this.picked ? null : this.bind.value;
 			this.$emit('update:picked', this.picked);
 		}
@@ -310,9 +325,19 @@ Vue.component('mg-cbx',{
 })
 Vue.component('mg-rdo',{
 	props: ['bind','picked'],
-	template: '<span class="mg-rdo"><input type="radio" :id="bind.id" :name="bind.name" :checked="(bind.value==picked)" :value="bind.value" @change="change"><label @click="change">{{ bind.value==picked ? "\u2726":""}}</label>&nbsp;<label  @click="change">{{bind.label}}</label></span>',
-	methods: {
-		change(evt,v) {
+	template: '<span :class="cls"><input type="radio" :id="bind.id" :name="bind.name" :checked="(bind.value==picked)" :value="bind.value" @change="change"><label @click="change">{{ bind.value==picked ? "\u2726":""}}</label><label  @click="change">{{bind.label}}</label></span>',
+	computed:{
+		cls:function(){
+			var _cls="mg-rdo";
+			if(this.bind.cls){ _cls+=' '+this.bind.cls; }
+			if(this.bind.disabled){ _cls+=' '+'mg-rdo-disabled'; }
+			if(this.bind.readonly){ _cls+=' '+'mg-rdo-readonly'; }
+			return _cls;
+		}
+	},
+	methods:{
+		change:function(){
+			if(this.bind.disabled || this.bind.readonly)return;
 			this.picked = this.bind.value;
 			this.$emit('update:picked', this.picked);
 		}
@@ -325,8 +350,11 @@ Vue.component('mg-grid',{
 var gData8 = {
 	cbx_111:{id:'cbx_111',name:'cbx_111',label:'111',value:'111',picked:null},
 	cbx2:{id:'chk_222',name:'chk_222',label:'222',value:'222',picked:null},
+	cbx3:{id:'chk_333',name:'chk_333',label:'333',value:'333',picked:null,disabled:true},
+	cbx4:{id:'chk_444',name:'chk_444',label:'444',value:'444',picked:null,readonly:true},
 	rdo1:{id:'rdo_111',name:'rdo_111222',label:'rdo111',value:'111'},
 	rdo2:{id:'rdo_222',name:'rdo_111222',label:'rdo222',value:'222'},
+	rdo3:{id:'rdo_333',name:'rdo_111222',label:'rdo333',value:'333',readonly:true},
 	rdo_111222:'???',
 	grid:{
 		cls:'test-grid',
