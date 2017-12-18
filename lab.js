@@ -9,7 +9,7 @@ app.post('/', (req, res) => appModule.handleHttp(req,res))
 app.get('/', (req, res) => res.redirect('/index.html'))
 
 // other to static
-app.use('/', express.static('public'))
+app.use('/', express.static('docs'))
 
 // license to port (TODO argo later)
 var port=3000;
