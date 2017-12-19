@@ -3,7 +3,8 @@
 	color:/*grey #d3d3d3*/#aaaaaa
 }
 .mg-ipt-readonly input,.mg-ipt-disabled input {
-	color:/*grey #d3d3d3*/#aaaaaa
+	color:/*grey #d3d3d3*/#aaaaaa;
+	background-color:#eeeeee
 }
 .mg-ipt .mg-ipt-label {margin-left:3px;margin-right:3px}
 .mg-ipt input{

@@ -1,4 +1,8 @@
 .mg-cbx-readonly,.mg-cbx-disabled {color:/*grey #d3d3d3*/#aaaaaa}
+.mg-cbx-readonly .mg-cbx-icon,.mg-cbx-disabled .mg-cbx-icon{
+color:/*grey #d3d3d3*/#aaaaaa;
+background-color:#eeeeee;
+}
 .mg-cbx .mg-cbx-label {margin-left:3px;margin-right:3px;margin-bottom:0px;}
 /*.mg-cbx input{ text-align:center; width:36px;}*/
 .mg-cbx input[type=checkbox]{display:none;}

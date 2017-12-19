@@ -1,4 +1,8 @@
 .mg-rdo-disabled,.mg-rdo-readonly {color:/*grey #d3d3d3*/#aaaaaa}
+.mg-rdo-disabled .mg-rdo-icon,.mg-rdo-readonly .mg-rdo-icon{
+	color:/*grey #d3d3d3*/#aaaaaa;
+	background-color:#eeeeee;
+}
 .mg-rdo input[type=radio]{display:none;}
 .mg-rdo .mg-rdo-label{margin-left:3px;margin-right:3px;margin-bottom:0px;}
 .mg-rdo .mg-rdo-icon{
