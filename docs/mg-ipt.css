@@ -2,7 +2,14 @@
 .mg-ipt-readonly,.mg-ipt-disabled {
 	color:/*grey #d3d3d3*/#aaaaaa
 }
-.mg-ipt-readonly input,.mg-ipt-disabled input {
+.mg-ipt-readonly input {
+	color:/*grey #d3d3d3*/#aaaaaa;
+	border-bottom:0px solid !important;
+	border-top:0px !important;
+	border-left:0px !important;
+	border-right:0px !important;
+}
+.mg-ipt-disabled input {
 	color:/*grey #d3d3d3*/#aaaaaa;
 	background-color:#eeeeee
 }
