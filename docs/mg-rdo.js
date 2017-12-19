@@ -1,6 +1,8 @@
 Vue.component('mg-rdo',{
 	props: ['conf','val'],
-	template: '<span :class="cls"><input type="radio" :id="conf.id" :name="conf.name" :checked="(conf.value==val)" :value="conf.value" @change="change"><span class="mg-rdo-icon" @click="change">{{ conf.value==val ? "\u2726":""}}</span><span class="mg-rdo-label" @click="change">{{conf.label}}</span></span>',
+	//template: '<span :class="cls"><input type="radio" :id="conf.id" :name="conf.name" :checked="(conf.value==val)" :value="conf.value" @change="change"><span class="mg-rdo-icon" @click="click">{{ conf.value==val ? "\u2726":""}}</span><span class="mg-rdo-label" @click="click"><transition name="fade"><span v-if="conf.show">{{conf.label}}</span><span v-else="!conf.show">{{conf.label}}</span></transition></span></span>',//未搞好click的动画...
+	template: '<span :class="cls"><input type="radio" :id="conf.id" :name="conf.name" :checked="(conf.value==val)" :value="conf.value" @change="change"><span class="mg-rdo-icon" @click="click">{{ conf.value==val ? "\u2726":""}}</span><span class="mg-rdo-label" @click="click">{{conf.label}}</span></span>',
+	//<transition name="bounce">
 	computed:{
 		cls:function(){
 			var _prefix='mg-rdo';
@@ -15,6 +17,14 @@ Vue.component('mg-rdo',{
 		}
 	},
 	methods:{
+		//拆出来想做动画...
+		click:function(){
+			//var _conf=this.conf;
+			//if(_conf){
+			//	this.conf.show=!this.conf.show;
+			//}
+			this.change();
+		},
 		change:function(){
 			var _conf=this.conf;
 			if(_conf){
