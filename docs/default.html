@@ -222,11 +222,10 @@ var app7 = new Vue({
 </script>
 <hr>
 <style>
-.mg-grid{ margin-top:2px; }
-.test-grid { border:1px solid}
-.test-grid td { margin:2px; padding:2px;border:1px solid; text-align:center}
-.test-grid td { margin:2px; padding:2px;border:1px solid; text-align:center}
-
+.mg-dtb{ margin-top:2px; }
+.mg-dtb { border:1px solid}
+.mg-dtb td { margin:2px; padding:2px;border:1px solid; text-align:center}
+.mg-dtb td { margin:2px; padding:2px;border:1px solid; text-align:center}
 .bounce-enter-active {
   animation: bounce-in .5s;
 }
@@ -245,25 +244,17 @@ var app7 = new Vue({
   }
 }
 </style>
-<script type="text/x-template" id="mg-grid">
+<script type="text/x-template" id="mg-dtb">
 <div>
-<table :class="'mg-grid '+bind.cls">
-<th><td v-for="td in bind.table_columns" v-bind:width="td.width" v-bind:align="td.align">{{td.title}}</td></th>
-<tr v-for="row in bind.table_data">
+<table :class="conf.cls">
+<th><td v-for="td in conf.cols" :width="td.width" :align="td.align">{{td.title}}</td></th>
+<tr v-for="row in conf.rows">
 <td>{{row.prod_code}}</td>
 </tr>
 </table>
 </div>
 </script>
 <div id="app8">app8<br/>
-<!--
-<my-checkbox v-model="cbx1" value="cbx111"></my-checkbox>
-<my-checkbox
-  :checked="cbx1.checked"
-  @change="val => { cbx1 = val }"
-  value="some value">
-</my-checkbox>
--->
 <mg-cbx :conf="cbx_111" :val.sync="cbx_111_val"></mg-cbx>
 <mg-cbx :conf="cbx2" :val.sync="cbx2_val"></mg-cbx>
 <mg-cbx :conf="cbx3" :val.sync="cbx3.val"></mg-cbx>
@@ -271,7 +262,7 @@ var app7 = new Vue({
 <mg-rdo :conf="rdo1" :val.sync="rdo_111222"></mg-rdo>
 <mg-rdo :conf="rdo2" :val.sync="rdo_111222" ></mg-rdo>
 <mg-rdo :conf="rdo3" :val.sync="rdo_111222" ></mg-rdo>
-<mg-grid :bind="grid"></mg-grid>
+<mg-dtb :conf="grid1"></mg-dtb>
 <pre>
 cbx_111_val={{ cbx_111_val }}
 {{ cbx2_val }}
@@ -280,7 +271,7 @@ rdo_111222={{ rdo_111222 }}
 {{ cbx2 }}
 {{ rdo1 }}
 {{ rdo2 }}
-{{ grid.table_data }}
+{{ grid1}}
 {{ debug }}
 </pre>
 </div>
@@ -288,11 +279,9 @@ rdo_111222={{ rdo_111222 }}
 <script src="mg-cbx.js"></script>
 <link rel="stylesheet" href="mg-rdo.css">
 <script src="mg-rdo.js"></script>
+<link rel="stylesheet" href="mg-dtb.css">
+<script src="mg-dtb.js"></script>
 <script>
-Vue.component('mg-grid',{
-	template: "#mg-grid",
-	props: ['bind']
-})
 var gData8 = {
 	//config
 	cbx_111:{id:'cbx_111',name:'cbx_111',label:'111',value:'111'},
@@ -306,13 +295,13 @@ var gData8 = {
 	cbx2_val:null,
 	cbx_111_val:null,
 	rdo_111222:'???',
-	grid:{
-		cls:'test-grid',
-		table_columns:[
+	grid1:{
+		cls:'mg-dtb',
+		cols:[
 			{title:'代号',width:'80',align:'center',dataIndx:'prod_code'},
 			{title:'代号2',width:'80',align:'center',dataIndx:'prod_code2'}
 		],
-		table_data:[
+		rows:[
 			{prod_code:'HSIZ7'},
 			{prod_code:'HSIX8'}
 		]
@@ -321,7 +310,7 @@ var gData8 = {
 };
 
 setInterval(function(){
-	gData8.grid.table_data=[ {prod_code:Math.round(Math.random()*9999)} ];
+	gData8.grid1.rows=[ {prod_code:Math.round(Math.random()*9999)} ];
 	//gData8.picked_rdo=Math.random()>0.5?'222':'111';
 },2222);
 
