@@ -1,0 +1,14 @@
+.mg-cbx-readonly,.mg-cbx-disabled {color:/*grey #d3d3d3*/#aaaaaa}
+.mg-cbx .mg-cbx-label {margin-left:3px;margin-right:3px;margin-bottom:0px;}
+/*.mg-cbx input{ text-align:center; width:36px;}*/
+.mg-cbx input[type=checkbox]{display:none;}
+.mg-cbx .mg-cbx-icon{
+	border-radius: 5px;
+	border:1px solid #d3d3d3;
+	width:1.5rem;
+	height:1.5rem;
+	display: inline-block;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 1.5rem;
+}
