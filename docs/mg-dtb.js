@@ -1,7 +1,8 @@
 //TODO @ref https://vuejs.org/v2/examples/grid-component.html
+//TODO dtb-pager dtb-search-bar etc
 Vue.component('mg-dtb',{
 	props: ['conf'],
-	template:'<div><table :class="cls"><tr><th v-for="td in conf.cols" :width="td.width" :align="td.align">{{td.title}}</th></tr><tr v-for="row in conf.rows"><td v-for="td in conf.cols" :width="td.width" :align="td.align" :colspan="(row[td.dataIndx]||{}).colspan||td.colspan||1" :rowspan="(row[td.dataIndx]||{}).rowspan||1">{{(row[td.dataIndx]||{}).disp||row[td.dataIndx]}}</td></tr></table></div>',
+	template:'<table :class="cls"><tr><th v-for="td in conf.cols" :width="td.width" :align="td.align">{{td.title}}</th></tr><tr v-for="row in conf.rows"><td v-for="td in conf.cols" :width="td.width" :align="td.align" :colspan="td.colspan||1" :rowspan="(row[td.dataIndx]||{}).rowspan||1">{{row[td.dataIndx]}}</td></tr></table>',
 	computed:{
 		cls:function(){
 			var _prefix='mg-dtb';

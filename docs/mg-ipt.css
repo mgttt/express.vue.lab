@@ -1,0 +1,22 @@
+/* TODO cursor... for readonly/disabled */
+.mg-ipt-readonly,.mg-ipt-disabled {
+	color:/*grey #d3d3d3*/#aaaaaa
+}
+.mg-ipt-readonly input,.mg-ipt-disabled input {
+	color:/*grey #d3d3d3*/#aaaaaa
+}
+.mg-ipt .mg-ipt-label {margin-left:3px;margin-right:3px}
+.mg-ipt input{
+	/*
+	text-align:center
+	width:1.5rem;
+	height:1.5rem;
+	*/
+	text-align: center;
+	vertical-align: middle;
+	display: inline-block;
+	border-radius: 5px;
+	border:1px solid #d3d3d3;
+	line-height: 1.5rem;
+}
+
