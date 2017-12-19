@@ -126,6 +126,7 @@ function ajaxqq(api,param){
   <button v-on:click="doReload">do reload</button>
   <button v-on:click="doQuit">do quit</button>
   <button v-on:click="doPing">do ping</button>
+  <button v-on:click="getData1">get data1</button>
 </div>
 <script>
 var app5 = new Vue({
@@ -155,10 +156,62 @@ var app5 = new Vue({
 			var _this=this;
 			ajaxq("/",o2s({m:'LogicReload',ping:(new Date()).getTime()})).then(s=>{ _this.ajaxq_rt=s });
 			alert("the remote logic should be reloaded...");
+    },
+    getData1: function(){
+			var _this=this;
+			ajaxqq("/",{m:'Data1'}).then(o=>{
+				_this.ajaxq_rt=o2s(o);
+				copy_o2o(gData8.grid1,o,{cols:'',rows:''});
+				//if(o.cols) gData8.grid1.cols=o.cols;
+				//if(o.rows) gData8.grid1.rows=o.rows;
+			});
     }
   }
 })
 </script>
+<style>
+.mg-dtb { margin-top:2px; }
+.mg-dtb { border:1px solid}
+.mg-dtb th { margin:2px; padding:2px;border:1px solid; text-align:center}
+.mg-dtb td { margin:2px; padding:2px;border:1px solid; text-align:center}
+
+.fade-enter-active/*, .fade-leave-active*/{
+  transition: opacity .5s
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0
+}
+</style>
+<div id="app8">app8<br/>
+<mg-ipt :conf="ipt_000" :val.sync="ipt_000_val"></mg-ipt>
+<mg-ipt :conf="ipt_001" :val.sync="ipt_001_val"></mg-ipt>
+<mg-ipt :conf="ipt_002" :val.sync="ipt_002_val"></mg-ipt>
+<mg-cbx :conf="cbx_111" :val.sync="cbx_111_val"></mg-cbx>
+<mg-cbx :conf="cbx2" :val.sync="cbx2_val"></mg-cbx>
+<mg-cbx :conf="cbx3" :val.sync="cbx3.val"></mg-cbx>
+<mg-cbx :conf="cbx4" :val.sync="cbx4.val"></mg-cbx>
+<mg-rdo :conf="rdo1" :val.sync="rdo_111222"></mg-rdo>
+<mg-rdo :conf="rdo2" :val.sync="rdo_111222" ></mg-rdo>
+<mg-rdo :conf="rdo3" :val.sync="rdo_111222" ></mg-rdo>
+<mg-dtb :conf="grid2"></mg-dtb>
+<mg-dtb :conf="grid1"></mg-dtb>
+<pre>
+ipt_000_val={{ ipt_000_val }}
+ipt_000.value ={{ ipt_000.value }}
+ipt_001_val={{ ipt_001_val }}
+ipt_002_val={{ ipt_002_val }}
+cbx_111_val={{ cbx_111_val }}
+{{ cbx2_val }}
+rdo_111222={{ rdo_111222 }}
+{{ cbx_111 }}
+{{ cbx2 }}
+{{ rdo1 }}
+{{ rdo2 }}
+{{ grid2}}
+{{ grid1}}
+{{ debug }}
+</pre>
+</div>
 <div id="app7">
 	app7
 	<ol>
@@ -178,18 +231,8 @@ var app5 = new Vue({
 	<anchored-heading :level="2">Hello world!2</anchored-heading>
 	<anchored-heading :level="3">Hello world!3</anchored-heading>
 </div>
+<hr>
 <script>
-/*
-Vue.component('anchored-heading', {
-  template: '#anchored-heading-template',
-  props: {
-    level: {
-      type: Number,
-      required: true
-    }
-  }
-})
-*/
 Vue.component('anchored-heading', {
   render: function (createElement) {
     return createElement(
@@ -219,48 +262,6 @@ var app7 = new Vue({
 	}
 })
 </script>
-<hr>
-<style>
-.mg-dtb { margin-top:2px; }
-.mg-dtb { border:1px solid}
-.mg-dtb th { margin:2px; padding:2px;border:1px solid; text-align:center}
-.mg-dtb td { margin:2px; padding:2px;border:1px solid; text-align:center}
-
-.fade-enter-active/*, .fade-leave-active*/{
-  transition: opacity .5s
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0
-}
-</style>
-<div id="app8">app8<br/>
-<mg-ipt :conf="ipt_000" :val.sync="ipt_000_val"></mg-ipt>
-<mg-ipt :conf="ipt_001" :val.sync="ipt_001_val"></mg-ipt>
-<mg-ipt :conf="ipt_002" :val.sync="ipt_002_val"></mg-ipt>
-<mg-cbx :conf="cbx_111" :val.sync="cbx_111_val"></mg-cbx>
-<mg-cbx :conf="cbx2" :val.sync="cbx2_val"></mg-cbx>
-<mg-cbx :conf="cbx3" :val.sync="cbx3.val"></mg-cbx>
-<mg-cbx :conf="cbx4" :val.sync="cbx4.val"></mg-cbx>
-<mg-rdo :conf="rdo1" :val.sync="rdo_111222"></mg-rdo>
-<mg-rdo :conf="rdo2" :val.sync="rdo_111222" ></mg-rdo>
-<mg-rdo :conf="rdo3" :val.sync="rdo_111222" ></mg-rdo>
-<mg-dtb :conf="grid1"></mg-dtb>
-<pre>
-ipt_000_val={{ ipt_000_val }}
-ipt_000.value ={{ ipt_000.value }}
-ipt_001_val={{ ipt_001_val }}
-ipt_002_val={{ ipt_002_val }}
-cbx_111_val={{ cbx_111_val }}
-{{ cbx2_val }}
-rdo_111222={{ rdo_111222 }}
-{{ cbx_111 }}
-{{ cbx2 }}
-{{ rdo1 }}
-{{ rdo2 }}
-{{ grid1}}
-{{ debug }}
-</pre>
-</div>
 <link rel="stylesheet" href="mg-cbx.css">
 <script src="mg-cbx.js"></script>
 <link rel="stylesheet" href="mg-rdo.css">
@@ -289,6 +290,10 @@ var gData8 = {
 	cbx2_val:null,
 	cbx_111_val:null,
 	rdo_111222:'???',
+	grid2:{cols:[
+		{title:'代号',width:'80',align:'center',dataIndx:'prod_code'},
+		{title:'代号2',width:'80',align:'center',dataIndx:'prod_code2'}
+	],rows:[]},
 	grid1:{
 		//cls:'mg-dtb',
 		cols:[
@@ -304,7 +309,7 @@ var gData8 = {
 };
 
 setInterval(function(){
-	gData8.grid1.rows=[
+	gData8.grid2.rows=[
 		{prod_code:Math.round(Math.random()*9999),prod_code2:Math.round(Math.random()*9999)},
 		{prod_code:999}
 	];

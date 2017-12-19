@@ -2,6 +2,19 @@ module.exports = function (Application){
 	const {Q,o2s,s2o,fs,os,logger,devlog,Session,server_id,JobMgr
 		,isEmpty,isOK,getTimeStr}=Application;
 
+	function Data1_q(){
+		return {
+			STS:'OK'
+			,cols:[
+				{title:'data1',width:'80',align:'center',dataIndx:'idx1'},
+				{title:'data2',width:'80',align:'center',dataIndx:'idx2'}
+			],
+			rows:[
+				{idx1:Math.round(Math.random()*9999),idx2:Math.round(Math.random()*9999)},
+				{idx1:Math.round(Math.random()*9999),idx2:Math.round(Math.random()*9999)}
+			]
+		}
+	}
 	///////////////////////////////////////////////////////////////////////////
 	function Quit_Promise(x){
 		var rt={STS:"OK",errmsg:"Will Quit Server("+server_id+") after 1 sec, please try reconnect later about 10 seconds for init."};
@@ -61,6 +74,7 @@ module.exports = function (Application){
 		SuperQuit_Promise,
 		//Health_Promise,
 		//Ping_Promise,
+		Data1_q,
 		Ping_q,
 		handleSIGINT,
 		handleUncaughtException,

@@ -22,6 +22,7 @@ Vue.component('mg-rdo',{
 			//var _conf=this.conf;
 			//if(_conf){
 			//	this.conf.show=!this.conf.show;
+			//	TODO 弄个抖动交易，让用户知道自己这个click是有发出去的.
 			//}
 			this.change();
 		},
@@ -30,7 +31,7 @@ Vue.component('mg-rdo',{
 			if(_conf){
 				if(_conf.disabled || _conf.readonly)return;
 				this.val = _conf.value;
-				this.$emit('update:val', this.val);
+				this.$emit('update:val', this.val);//@ref val.sync
 			}
 		}
 	}
