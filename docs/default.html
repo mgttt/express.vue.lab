@@ -222,7 +222,7 @@ var app7 = new Vue({
 </script>
 <hr>
 <style>
-.mg-dtb{ margin-top:2px; }
+.mg-dtb { margin-top:2px; }
 .mg-dtb { border:1px solid}
 .mg-dtb td { margin:2px; padding:2px;border:1px solid; text-align:center}
 .mg-dtb td { margin:2px; padding:2px;border:1px solid; text-align:center}
@@ -246,10 +246,10 @@ var app7 = new Vue({
 </style>
 <script type="text/x-template" id="mg-dtb">
 <div>
-<table :class="conf.cls">
-<th><td v-for="td in conf.cols" :width="td.width" :align="td.align">{{td.title}}</td></th>
+<table :class="cls">
+<tr><td v-for="td in conf.cols" :width="td.width" :align="td.align">{{td.title}}</td></tr>
 <tr v-for="row in conf.rows">
-<td>{{row.prod_code}}</td>
+<td v-for="td in conf.cols" :width="td.width" :align="td.align">{{row[td.dataIndx]}}</td>
 </tr>
 </table>
 </div>
@@ -296,7 +296,7 @@ var gData8 = {
 	cbx_111_val:null,
 	rdo_111222:'???',
 	grid1:{
-		cls:'mg-dtb',
+		//cls:'mg-dtb',
 		cols:[
 			{title:'代号',width:'80',align:'center',dataIndx:'prod_code'},
 			{title:'代号2',width:'80',align:'center',dataIndx:'prod_code2'}
@@ -310,7 +310,7 @@ var gData8 = {
 };
 
 setInterval(function(){
-	gData8.grid1.rows=[ {prod_code:Math.round(Math.random()*9999)} ];
+	gData8.grid1.rows=[ {prod_code:Math.round(Math.random()*9999),prod_code2:Math.round(Math.random()*9999)} ];
 	//gData8.picked_rdo=Math.random()>0.5?'222':'111';
 },2222);
 
