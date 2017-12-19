@@ -224,7 +224,7 @@ var app7 = new Vue({
 <style>
 .mg-dtb { margin-top:2px; }
 .mg-dtb { border:1px solid}
-.mg-dtb td { margin:2px; padding:2px;border:1px solid; text-align:center}
+.mg-dtb th { margin:2px; padding:2px;border:1px solid; text-align:center}
 .mg-dtb td { margin:2px; padding:2px;border:1px solid; text-align:center}
 .bounce-enter-active {
   animation: bounce-in .5s;
@@ -244,16 +244,6 @@ var app7 = new Vue({
   }
 }
 </style>
-<script type="text/x-template" id="mg-dtb">
-<div>
-<table :class="cls">
-<tr><td v-for="td in conf.cols" :width="td.width" :align="td.align">{{td.title}}</td></tr>
-<tr v-for="row in conf.rows">
-<td v-for="td in conf.cols" :width="td.width" :align="td.align">{{row[td.dataIndx]}}</td>
-</tr>
-</table>
-</div>
-</script>
 <div id="app8">app8<br/>
 <mg-cbx :conf="cbx_111" :val.sync="cbx_111_val"></mg-cbx>
 <mg-cbx :conf="cbx2" :val.sync="cbx2_val"></mg-cbx>

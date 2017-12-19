@@ -1,7 +1,7 @@
+//TODO @ref https://vuejs.org/v2/examples/grid-component.html
 Vue.component('mg-dtb',{
-	template:"#mg-dtb",//dev tmp
-	//template: "<div> <table :class="'mg-grid '+conf.cls"> <th><td v-for="td in conf.table_columns" v-conf:width="td.width" v-conf:align="td.align">{{td.title}}</td></th> <tr v-for="row in conf.table_data"> <td>{{row.prod_code}}</td> </tr> </table> </div> ",
 	props: ['conf'],
+	template:'<div><table :class="cls"><tr><th v-for="td in conf.cols" :width="td.width" :align="td.align">{{td.title}}</th></tr><tr v-for="row in conf.rows"><td v-for="td in conf.cols" :width="td.width" :align="td.align" :colspan="(row[td.dataIndx]||{}).colspan||td.colspan||1" :rowspan="(row[td.dataIndx]||{}).rowspan||1">{{(row[td.dataIndx]||{}).disp||row[td.dataIndx]}}</td></tr></table></div>',
 	computed:{
 		cls:function(){
 			var _prefix='mg-dtb';
