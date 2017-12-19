@@ -270,7 +270,39 @@ var app7 = new Vue({
 <script src="mg-dtb.js"></script>
 <link rel="stylesheet" href="mg-ipt.css">
 <script src="mg-ipt.js"></script>
+
+<!-- https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="vue-tables-2.min.js"></script>
+<div id="people">
+	<v-client-table :data="tableData" :columns="columns" :options="options">
+		<button slot="edit" slot-scope="props" class="fa fa-edit" @click='click(props.row)'>edit</button>
+		<button slot="eee" slot-scope="props" class="fa fa-edit" @click='click(props.row)'>eee</button>
+	</v-client-table>
+</div>
 <script>
+	//Vue.use(ClientTable, [options], [useVuex], [customTemplate]);
+	Vue.use(VueTables.ClientTable);
+new Vue({
+	el: "#people",
+	methods: {
+		click:function(row){
+			//alert('click'+id);
+			alert(o2s(row));
+		}
+	},	
+	data: {
+		columns: ['id', 'name', 'edit','age','eee'],
+		tableData:[
+			{ id: 1, name: "John", age: "20"},
+			{ id: 2, name: "Jane", age: "24"},
+		],
+		options: {
+			// see the options API
+		}
+	}
+});
+
 var gData8 = {
 	//config
 	ipt_000:{id:'ipt_000',name:'ipt_000',label:'lbl000',value:'000',size:6,maxsize:8},
