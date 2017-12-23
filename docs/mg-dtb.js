@@ -1,8 +1,18 @@
-//TODO @ref https://vuejs.org/v2/examples/grid-component.html
-//TODO dtb-pager dtb-search-bar etc
+//TODO 数据变更时给点效果?
+Vue.component('mg-dtb-cell',{
+	props: ['cellData','rowData','headData','tableConf'],
+	template:'<td :rowData="rowData" :width="headData.width" :align="headData.align" :colspan="(tableConf.calcColSpan||function(){})(headData)||headData.colspan" :rowspan="(tableConf.calcRowSpan||function(){})(headData)||headData.rowspan">'
+	+'<template v-if="tableConf.acts&&tableConf.acts[headData.dataIndx]">'
+	+'<template v-for="(act,k) in tableConf.acts[headData.dataIndx]">'
+	+'<template v-if="act.type==\'a\'"><a href="#" :class="act.cls" @click="(act.click||tableConf.rowAction||function(){alert(\'TODO \'+k)})({rowData:rowData,dataIndx:headData.dataIndx,action:k})">{{k}}</a></template>'
+	+'<template v-else="act.type==\'button\'"><button :class="act.cls" v-html="act.html||act.text||k" @click="(act.click||click)({rowData:rowData,dataIndx:headData.dataIndx,action:k})"></button></template>'
+	+'&nbsp;</template></template>'//if acts
+	+'<span v-else v-html="(tableConf.renderCell||function(){})({cellData:cellData,rowData:rowData,dataIndx:headData.dataIndx})||cellData"></span>'
+	+'</td>',
+});
 Vue.component('mg-dtb',{
 	props: ['conf'],
-	template:'<table :class="cls"><tr><th v-for="td in conf.cols" :width="td.width" :align="td.align">{{td.title}}</th></tr><tr v-for="row in conf.rows"><td v-for="td in conf.cols" :width="td.width" :align="td.align" :colspan="td.colspan||1" :rowspan="(row[td.dataIndx]||{}).rowspan||1">{{row[td.dataIndx]}}</td></tr></table>',
+	template:'<table :class="cls" :style="conf.style"><thead><tr><th v-for="headData in conf.cols" :width="headData.width" :align="headData.align" v-html="(conf.renderHead||function(){})(headData)||headData.title||headData.dataIndx"></th></tr></thead><tbody><tr v-for="rowData in conf.rows"><mg-dtb-cell v-for="headData in conf.cols" :tableConf="conf" :cellData="rowData[headData.dataIndx]" :rowData="rowData" :headData="headData"/></tr><tbody></table>',
 	computed:{
 		cls:function(){
 			var _prefix='mg-dtb';
