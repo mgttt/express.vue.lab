@@ -9,14 +9,12 @@ Vue.component('mg-dtb',{
 		head_component:function(){return{
 			props: ['headData','tableConf'],
 			template:
-			//'<th :colspan="headData.colspan" v-html="headData.title||headData.dataIndx||headData"></th>',
 			'<th :colspan="headData.colspan" :rowspan="headData.rowspan" v-html="headData.title||headData.dataIndx||headData"></th>',
 		}},
 		cell_component:function(){return{
 			props: ['cellData','rowData','headData','tableConf'],
 			template:
-			//'<td :width="headData.width" :align="headData.align" :colspan="(tableConf.calcColSpan||function(){})(headData)||headData.colspan" :rowspan="(tableConf.calcRowSpan||function(){})(headData)||headData.rowspan">'
-			'<td :width="headData.width" :align="headData.align">'
+			'<td :width="headData.width" :align="headData.align" :colspan="(tableConf.calcColSpan||function(){})(headData)||headData.colspan" :rowspan="(tableConf.calcRowSpan||function(){})(headData)||headData.rowspan">'
 			+'<template v-if="tableConf.acts&&tableConf.acts[headData.dataIndx]">'
 			+'<template v-for="(act,k) in tableConf.acts[headData.dataIndx]">'
 			+'<template v-if="act.type==\'a\'"><a href="#" :class="act.cls" @click="(act.click||tableConf.rowAction||function(){alert(\'TODO \'+k)})({rowData:rowData,dataIndx:headData.dataIndx,action:k})" v-html="act.html||act.text||k"></a></template>'
