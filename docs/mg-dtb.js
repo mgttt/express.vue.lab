@@ -1,15 +1,15 @@
 Vue.component('mg-dtb',{
 	props: ['conf'],
 	template:'<table :class="table_css" :style="conf.style"><thead>'
-	+'<tr v-for="colRow in ((conf.cols&&conf.cols.length>0&&conf.cols[0].length>0)?conf.cols:[conf.cols])"><component v-for="headData in colRow" :tableConf="conf" :headData="headData" :is="headData.head_component||head_component"/></tr>'
+	+'<tr v-for="colRow in (has_head(conf)?conf.cols:[conf.cols])"><component v-for="headData in colRow" :tableConf="conf" :headData="headData" :is="headData.head_component||head_component"/></tr>'
 	+'</thead><tbody>'
-	+'<tr v-for="rowData in conf.rows"><component v-for="headData in ((conf.cols&&conf.cols.length>0&&conf.cols[0].length>0)?conf.cols.slice(-1)[0]:conf.cols)" :tableConf="conf" :cellData="rowData[headData.dataIndx]" :rowData="rowData" :headData="headData" :is="headData.cell_component||cell_component"/></tr>'
+	+'<tr v-for="rowData in conf.rows"><component v-for="headData in (has_head(conf)?conf.cols.slice(-1)[0]:conf.cols)" :tableConf="conf" :cellData="rowData[headData.dataIndx]" :rowData="rowData" :headData="headData" :is="headData.cell_component||cell_component"/></tr>'
 	+'<tbody></table>',
+	methods:{has_head:function(conf){return conf.cols&&conf.cols.length>0&&conf.cols[0].length>0}},
 	computed:{
 		head_component:function(){return{
 			props: ['headData','tableConf'],
-			template:
-			'<th :colspan="headData.colspan" :rowspan="headData.rowspan" v-html="headData.title||headData.dataIndx||headData"></th>',
+			template:'<th :colspan="headData.colspan" :rowspan="headData.rowspan" v-html="headData.title||headData.dataIndx||headData"></th>',
 		}},
 		cell_component:function(){return{
 			props: ['cellData','rowData','headData','tableConf'],
@@ -26,9 +26,7 @@ Vue.component('mg-dtb',{
 			+'</td>',
 		}},
 		table_css:function(){
-			var _prefix=this.cls_prefix || 'mg-dtb';
-			var _cls=_prefix;
-			var _conf=this.conf;
+			var _prefix=this.cls_prefix || 'mg-dtb',_cls=_prefix,_conf=this.conf;
 			if(_conf){
 				if(_conf.cls){ _cls+=' '+_conf.cls; }
 				if(_conf.disabled){ _cls+=' '+_prefix+'-disabled'; }
