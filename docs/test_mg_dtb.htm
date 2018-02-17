@@ -1,0 +1,213 @@
+<link rel="stylesheet" href="https://weblib.jump.ws/pure-min.1.0.0.css">
+<script src="https://weblib.jump.ws/vue.2.5.13.min.js"></script>
+<script src="mg-dtb.js"></script>
+<link rel="stylesheet" href="mg-cbx.css">
+<script src="mg-cbx.js"></script>
+<link rel="stylesheet" href="https://weblib.jump.ws/IosevkaMedium.css" comment="alternative to [Consolas]">
+<style>
+html,body{ padding:0px;margin:0px;background-color: #fff;/*overflow-y:hidden;*/ height: 100%; }
+.IosevkaMedium, pre, code, body, input, label { font-family:"IosevkaMedium","AndaleMono",Consolas,DOS,Helvetica,Tahoma,Arial,SimHei,STXihei,"华文细黑","MicrosoftYaHei","微软雅黑",SimSun,"宋体",Heiti,"黑体",sans-serif; }
+/*
+	 .gray{background-color: gray !important}
+	 .odd_row{background-color: #FEF985}
+ */
+.table-server-monitor{ font-family: IosevkaMedium; font-size: 9pt; }
+table {
+	border: 2px solid #42b983;
+	border-radius: 3px;
+	background-color: #fff;
+}
+th {
+	text-align:center;
+	background-color: #42b983;
+	color: rgba(255,255,255,0.66);
+	/*cursor: pointer;*/
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+td {
+	background-color: #f9f9f9;
+}
+
+th, td {
+	min-width: 20px;
+	padding: 5px 5px;
+}
+
+th.active {
+	color: #fff;
+}
+.pure-table td, .pure-table th
+{
+	padding:4px !important;
+}
+.button-success,
+.button-error,
+.button-warning,
+.button-secondary {
+	color: white;
+	border-radius: 4px;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.button-success {
+	background: rgb(28, 184, 65); /* this is a green */
+}
+
+.button-error {
+	background: rgb(202, 60, 60); /* this is a maroon */
+}
+
+.button-warning {
+	background: rgb(223, 117, 20); /* this is an orange */
+}
+
+.button-secondary {
+	background: rgb(66, 184, 221); /* this is a light blue */
+} 
+
+.button-xsmall {
+	font-size: 70%;
+}
+
+.button-small {
+	font-size: 85%;
+}
+
+.button-large {
+	font-size: 110%;
+}
+
+.button-xlarge {
+	font-size: 125%;
+}
+</style>
+<div id="app" style="min-width:1280px">
+	<button @click="DataReload()">Refresh Data</button>
+	<mg-dtb :conf="grid_data"></mg-dtb>
+</div>
+<script>
+var gData = {
+	grid_data:{
+		cls:"table-server-monitor pure-table pure-table-horizontal pure-table-striped",
+		cols: [
+			[{dataIndx:'合并测试',colspan:"2"},
+				{title:'定制头测试',
+					head_component:{
+						props: ['headData','tableConf'],
+						template:'<th>定制template测试</th>',
+					},
+				}],
+			[{
+				dataIndx:'msg',
+				cell_component:{
+					props: ['cellData','rowData','headData','tableConf'],
+					template:'<td :colspan="headData.colspan">haha msg</td>',
+				},
+				//head_component:{
+				//	props: ['cellData','rowData','headData','tableConf'],
+				//	template:'<th :colspan="headData.colspan">override head</th>',
+				//},
+			},
+				{dataIndx:'test1'},
+				{dataIndx:'cbx2',
+					cell_component:{
+						props: ['cellData','rowData','headData','tableConf'],
+						template:'<td :colspan="headData.colspan"><mg-cbx :val="rowData.cbx2" @change="val => {(tableConf.rowAction||function(){alert(\'TODO \'+headData.dataIndx)})({rowData:rowData,dataIndx:headData.dataIndx,action:headData.dataIndx,value:val})}" :val_checked="true" :val_unchecked="false" :label="\'\'+rowData.cbx2" /></td>',
+					}
+				},
+				{dataIndx:'debug_mode'},
+				{dataIndx:'test_mode'},
+				{dataIndx:'cbx',
+					cell_component:{
+						props: ['cellData','rowData','headData','tableConf'],
+						template:'<td :colspan="headData.colspan"><mg-cbx :label="rowData.cbx_new+\',\'+rowData.cbx" :val_checked="rowData.cbx_checked||rowData.cbx||true" :val_unchecked="rowData.cbx_unchecked||false" :conf="rowData" :val.sync="rowData.cbx_new" @change="onChange({rowData:rowData,dataIndx:headData.dataIndx})"/></td>',
+						methods:{
+							onChange:function(ui){
+								var _rowData = ui.rowData;
+								//my_confirm_q({msg:'Sure?'}).then(function(rst){
+								//	if(rst){
+								//		var server_id = _rowData.server_id;
+								//		ajax.post("ApiSplus.SetDebugMode.api?"+"&_s="+getSID(),function(s){
+								//			var o=s2o(s);
+								//			if(o&&o.errmsg){
+								//				var ss=o.errmsg;
+								//				my_alert_q({msg:ss});
+								//			}else{
+								//				my_alert_q({msg:o2s(o)});
+								//			}
+								//		},o2s({server_id:server_id,flag:flag}));
+								//	}else{
+								//		//$(obj).prop("checked",flag?false:true);
+								//		//TODO reset it ...
+								//		_rowData.
+								//	}
+								//});
+								alert('DBG:'+_rowData.cbx_new+','+_rowData.cbx);
+							}
+						}
+					},
+				},
+			]
+		],
+		rows:[
+			{msg:'loading...',test1:'test001',cbx_checked:Math.random()>0.5?1:2,cbx:null,cbx2:undefined,debug_mode:true,test_mode:false},
+		],
+		acts:{
+			debug_mode:{
+				debug_mode:{type:'mg-cbx'},
+				test_mode:{type:'mg-cbx'},
+			},
+		},
+		rowAction:function(ui){
+			var _rowData=ui.rowData;
+			switch(ui.action){
+				case 'debug_mode':
+					_rowData.debug_mode= ui.value;//set to new val...
+					braek;
+				case 'cbx2':
+					_rowData.cbx2= ui.value;//set to new val...
+					break;
+				default:
+					alert(ui.action);
+					_rowData[ui.action]= ui.value;//set to new val...
+			}
+		}
+		//TODO 稍后直接用template也可以实现.
+		//acts:{
+		//	oper_svr:{
+		//		Quit:{type:'button',cls:'mg-dtb-action pure-button button-warning'},
+		//		Reload:{type:'button',cls:'mg-dtb-action pure-button pure-button-primary'},
+		//		//'Test':{html:'<h1>TEST</h1>',type:'a',cls:'mg-dtb-a'},
+		//	},
+		//	quit_svr:{
+		//		SuperQuit:{type:'button',cls:'mg-dtb-action pure-button button-warning'},
+		//		LoginSP:{type:'button',cls:'mg-dtb-action pure-button button-warning'},
+		//	},
+		//	oper_mt:{
+		//		Bind_MT:{type:'button',text:'Bind MT',cls:'mg-dtb-action pure-button pure-button-primary'},
+		//	},
+		//	oper_sp:{
+		//		Bind_SP:{type:'button',text:'Bind SP',cls:'mg-dtb-action pure-button pure-button-primary'},
+		//	},
+		//	oper_st:{
+		//		Running1:{type:'button',text:'策略主控',cls:'mg-dtb-action pure-button '},
+		//		Running2:{type:'button',text:'流水监控',cls:'mg-dtb-action pure-button '},
+		//		//br1:{html:'<br/>'},
+		//		Running3:{type:'button',text:'账户资料',cls:'mg-dtb-action pure-button '},
+		//		Running6:{type:'button',text:'期权大师',cls:'mg-dtb-action pure-button '},
+		//		//br2:{html:'<br/>'},
+		//		Running4:{type:'button',text:'手机',cls:'mg-dtb-action pure-button '},
+		//		Running3D:{type:'button',text:'资产3D透视',cls:'mg-dtb-action pure-button '},
+		//	},
+		//},
+	}
+};
+new Vue({
+	el: "#app",
+	data: gData,
+});
+</script>
